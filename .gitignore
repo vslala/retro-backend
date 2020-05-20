@@ -31,3 +31,6 @@ out/
 ### VS Code ###
 .vscode/
 *.log
+.gitsecret/keys/random_seed
+!*.secret
+src/main/resources/retro-board-ebce6-firebase-adminsdk-ex8kt-905b8c139f.json
