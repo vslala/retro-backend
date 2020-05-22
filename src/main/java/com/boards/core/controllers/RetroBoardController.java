@@ -6,20 +6,16 @@ import com.boards.core.services.RetroBoardService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
-
-import javax.websocket.server.PathParam;
 
 import java.util.List;
 import java.util.Optional;
 
 import static java.net.URI.create;
 
-@CrossOrigin
 @Log4j
+@CrossOrigin
 @RestController
 @RequestMapping("/retro-board")
 public class RetroBoardController {

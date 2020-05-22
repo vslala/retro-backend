@@ -30,7 +30,19 @@ CREATE TABLE sticky_note_styles (
 CREATE TABLE notes (
     note_id         VARCHAR (255) NOT NULL,
     note_text       VARCHAR (1024) NOT NULL,
-    retro_board_id  VARCHAR (255) NOT NULL,
+    board_id  VARCHAR (255) NOT NULL,
     wall_id         VARCHAR (255) NOT NULL,
     created_by      VARCHAR (55) NOT NULL
+);
+
+CREATE TABLE users (
+    uid         VARCHAR (255),
+    username    VARCHAR (255),
+    displayName VARCHAR (99),
+    email       VARCHAR (255)
+);
+
+CREATE TABLE user_boards (
+    uid         VARCHAR (255),
+    board_id    VARCHAR (255)
 );

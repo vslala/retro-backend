@@ -2,10 +2,12 @@ package com.boards.core.services;
 
 import com.boards.core.model.CreateResponse;
 import com.boards.core.model.RetroBoard;
+import com.boards.core.model.User;
 import com.boards.core.service.CacheManagerImpl;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.Paths;
