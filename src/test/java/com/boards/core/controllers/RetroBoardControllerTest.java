@@ -1,6 +1,8 @@
 package com.boards.core.controllers;
 
 import com.boards.core.model.RetroBoard;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.util.Utils;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpTransport;
@@ -19,14 +21,20 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.Location;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
@@ -39,9 +47,27 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc
+@AutoConfigureTestDatabase
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RetroBoardControllerTest {
+
+    @BeforeAll
+    static void setup() {
+        Flyway flyway = Flyway.configure()
+                .dataSource("jdbc:h2:mem:db;MODE=MySQL;DB_CLOSE_DELAY=-1", "vslala", "simplepass")
+                .load();
+        for (Location location : flyway.getConfiguration().getLocations()) {
+            System.out.println("Location: " + location);
+        }
+        flyway.migrate();
+    }
+
+    @Autowired
+    private MockMvc mockMvc;
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -75,23 +101,29 @@ class RetroBoardControllerTest {
     }
 
     @Test
-    void persist_retro_board_in_the_database() throws FirebaseAuthException, IOException {
+    void persist_retro_board_in_the_database() throws Exception {
         String secureToken = this.generateSecureToken();
         System.out.println("ID TOKEN: \n" + secureToken);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + secureToken);
-        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(Map.of(
-                "name", "Test Board",
-                "maxLikes", 5)
-                , headers);
+        mockMvc.perform(
+                post("/retro-board")
+                        .header("Authorization", "Bearer " + secureToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(Map.of(
+                                "name", "Test Board",
+                                "maxLikes", 5))))
+                .andExpect(status().isCreated());
 
-        ResponseEntity<String> response = restTemplate.exchange(getTestUrl("/retro-board"), HttpMethod.POST, entity, String.class);
-        System.out.println("Response\b" + response.getBody());
 
-        assertEquals(201, response.getStatusCodeValue());
-        assertNotNull(response);
+    }
+
+    public static byte[] asJsonString(Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsBytes(obj);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 
     private String generateSecureToken() throws FirebaseAuthException, IOException {
