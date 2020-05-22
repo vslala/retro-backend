@@ -1,4 +1,4 @@
-package com.boards.core.model;
+package com.boards.core.model.entities;
 
 import com.google.firebase.database.annotations.NotNull;
 import lombok.Builder;

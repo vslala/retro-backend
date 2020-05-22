@@ -1,6 +1,6 @@
 package com.boards.core.service;
 
-import com.boards.core.model.Note;
+import com.boards.core.model.entities.Note;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Component;

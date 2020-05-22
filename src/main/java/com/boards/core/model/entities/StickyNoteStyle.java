@@ -1,4 +1,4 @@
-package com.boards.core.model;
+package com.boards.core.model.entities;
 
 import lombok.Data;
 

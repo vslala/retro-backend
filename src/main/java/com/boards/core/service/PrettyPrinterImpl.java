@@ -1,7 +1,7 @@
 package com.boards.core.service;
 
-import com.boards.core.model.Note;
-import com.boards.core.model.RetroBoard;
+import com.boards.core.model.entities.Note;
+import com.boards.core.model.entities.RetroBoard;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Component;
 

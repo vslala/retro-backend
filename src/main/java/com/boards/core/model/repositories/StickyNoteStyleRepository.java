@@ -1,6 +1,6 @@
 package com.boards.core.model.repositories;
 
-import com.boards.core.model.StickyNoteStyle;
+import com.boards.core.model.entities.StickyNoteStyle;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

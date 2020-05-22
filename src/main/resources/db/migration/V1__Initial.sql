@@ -2,12 +2,12 @@ CREATE TABLE retro_boards (
     id      VARCHAR (255) NOT NULL,
     name    VARCHAR (255) NOT NULL,
     blur    VARCHAR (5) NOT NULL,
-    maxLikes INT
+    max_likes INT
 );
 
 CREATE TABLE retro_walls (
     retro_board_id  VARCHAR (255) NOT NULL,
-    wallId  VARCHAR (255) NOT NULL,
+    wall_id  VARCHAR (255) NOT NULL,
     title   VARCHAR (255) NOT NULL,
     wall_style  INT,
     sort_cards  INT NOT NULL DEFAULT 0
@@ -38,7 +38,7 @@ CREATE TABLE notes (
 CREATE TABLE users (
     uid         VARCHAR (255),
     username    VARCHAR (255),
-    displayName VARCHAR (99),
+    display_name VARCHAR (99),
     email       VARCHAR (255)
 );
 

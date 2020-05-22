@@ -1,4 +1,4 @@
-package com.boards.core.model;
+package com.boards.core.model.dto;
 
 import lombok.Builder;
 import lombok.Data;

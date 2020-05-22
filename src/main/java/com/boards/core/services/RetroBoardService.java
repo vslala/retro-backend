@@ -1,15 +1,14 @@
 package com.boards.core.services;
 
-import com.boards.core.model.CreateResponse;
-import com.boards.core.model.RetroBoard;
+import com.boards.core.model.dto.CreateResponse;
+import com.boards.core.model.dto.CreateRetroBoardRequest;
+import com.boards.core.model.entities.RetroBoard;
 import com.boards.core.model.repositories.RetroBoardRepository;
-import com.boards.core.service.CacheManagerImpl;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +25,8 @@ public class RetroBoardService {
         this.retroBoardRepository = retroBoardRepository;
     }
 
-    public CreateResponse createRetroBoard(RetroBoard retroBoard) {
+    public CreateResponse createRetroBoard(CreateRetroBoardRequest input) {
+        RetroBoard retroBoard = RetroBoard.newInstance(input.getName(), input.getMaxLikes());
         retroBoard.generateUniqId(); // generates uniq id for itself
         RetroBoard persist = retroBoardRepository.save(retroBoard);
 

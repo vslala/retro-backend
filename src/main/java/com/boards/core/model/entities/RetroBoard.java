@@ -1,13 +1,10 @@
-package com.boards.core.model;
+package com.boards.core.model.entities;
 
 import com.google.firebase.database.annotations.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Base64;
 
 @Data
@@ -29,6 +26,9 @@ public class RetroBoard {
     @Column(name = "max_likes")
     @NotNull
     private Integer maxLikes;
+
+    @Transient
+    private String userId = "someuserid";
 
     public static RetroBoard newInstance(String name, int maxLikes) {
         RetroBoard retroBoard = new RetroBoard();

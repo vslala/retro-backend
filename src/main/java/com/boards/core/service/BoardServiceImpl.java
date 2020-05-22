@@ -1,7 +1,7 @@
 package com.boards.core.service;
 
-import com.boards.core.model.Note;
-import com.boards.core.model.RetroBoard;
+import com.boards.core.model.entities.Note;
+import com.boards.core.model.entities.RetroBoard;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

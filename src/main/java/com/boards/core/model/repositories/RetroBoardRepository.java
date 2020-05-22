@@ -1,6 +1,6 @@
 package com.boards.core.model.repositories;
 
-import com.boards.core.model.RetroBoard;
+import com.boards.core.model.entities.RetroBoard;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
