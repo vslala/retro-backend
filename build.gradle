@@ -38,6 +38,8 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	compileOnly 'com.h2database:h2:1.4.200'
+	testCompile 'com.h2database:h2:1.4.200'
+	testCompile 'org.projectlombok:lombok'
 
 }
 

@@ -53,7 +53,7 @@ public class RetroBoardTokenAuthenticationFilter extends OncePerRequestFilter {
         try {
             idToken = FirebaseAuth.getInstance().verifyIdToken(idTokenString);
         } catch (FirebaseAuthException e) {
-            log.warn("Invalid Token! " + e.getMessage(), e);
+            log.warn("Invalid Token! \n" + idTokenString + "\nMessage=" + e.getMessage(), e);
         }
         return Objects.isNull(idToken) ? Optional.empty() : Optional.of(idToken);
     }
