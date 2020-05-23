@@ -16,7 +16,7 @@ import java.util.Optional;
 import static java.net.URI.create;
 
 @Log4j
-@CrossOrigin(origins = "http://localhost:3000", exposedHeaders = {"Access-Token", "Uid", "Location"})
+@CrossOrigin(exposedHeaders = {"Access-Token", "Uid", "Location"})
 @RestController
 @RequestMapping("/retro-board")
 public class RetroBoardController {

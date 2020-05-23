@@ -1,5 +1,6 @@
 package com.boards.core.model.entities;
 
+import com.boards.core.configuration.AppUtil;
 import com.google.firebase.database.annotations.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,7 +39,6 @@ public class RetroBoard {
     }
 
     public void generateUniqId() {
-        String currentTime = String.valueOf(System.currentTimeMillis());
-        this.id = Base64.getEncoder().encodeToString(currentTime.getBytes());
+        this.id = AppUtil.uniqId();
     }
 }

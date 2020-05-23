@@ -3,18 +3,26 @@ package com.boards.core.model.entities;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
 @Table(name = "retro_walls")
 public class RetroWall {
-    private String retroBoardId;
     @Id
+    @Column(name = "wall_id")
     private String wallId;
+
+    @Column(name = "retro_board_id")
+    private String retroBoardId;
+
+    @Column(name = "title")
     private String title;
-    private Integer wallStyle;
+
+    @Column(name = "wall_style")
+    private String wallStyle;
+
+    @Column(name = "sort_cards")
     private boolean sortCards;
+
 }

@@ -1,6 +1,7 @@
 package com.boards.core.controllers;
 
 import com.boards.core.model.dto.CreateRetroWallsRequest;
+import com.boards.core.model.dto.RetroWallsResponse;
 import com.boards.core.model.entities.RetroWall;
 import com.boards.core.services.RetroWallsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,10 @@ import java.util.List;
 
 import static com.boards.core.configuration.AppConfig.*;
 
-@CrossOrigin(origins = LOCAL_ORIGIN,
+@CrossOrigin(
         exposedHeaders = {EXPOSE_LOCATION, EXPOSE_ACCESS_TOKEN, EXPOSE_UID})
 @RestController
-@RequestMapping("/retro-board")
+@RequestMapping("/retro-board/walls")
 public class RetroWallsController {
 
     private RetroWallsService retroWallsService;
@@ -27,11 +28,15 @@ public class RetroWallsController {
         this.retroWallsService = retroWallsService;
     }
 
-    @PostMapping("/wall")
+    @PostMapping
     public ResponseEntity<HttpStatus> createWalls(@RequestBody CreateRetroWallsRequest input) {
-
         URI resourceUrl = retroWallsService.createWalls(input);
         return ResponseEntity.created(resourceUrl).build();
+    }
 
+    @GetMapping("/{retroBoardId}")
+    public ResponseEntity<RetroWallsResponse> retroWallsForRetroBoard(@PathVariable String retroBoardId) {
+        RetroWallsResponse retroWalls = retroWallsService.getWallsForBoard(retroBoardId);
+        return retroWalls.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(retroWalls);
     }
 }

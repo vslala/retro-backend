@@ -19,7 +19,6 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 
-@Service
 public class BoardServiceImpl {
     private static final String resources = "src/main/resources";
     private final CacheManagerImpl cacheManagerImpl;
