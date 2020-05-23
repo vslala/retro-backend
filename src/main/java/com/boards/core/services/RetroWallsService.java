@@ -1,11 +1,14 @@
 package com.boards.core.services;
 
+import com.boards.core.model.dto.CreateRetroWallRequest;
 import com.boards.core.model.dto.CreateRetroWallsRequest;
 import com.boards.core.model.dto.CreateStickyNoteStyleRequest;
 import com.boards.core.model.dto.RetroWallsResponse;
+import com.boards.core.model.entities.RetroBoard;
 import com.boards.core.model.entities.RetroWall;
 import com.boards.core.model.entities.StickyNoteStyle;
 import com.boards.core.model.entities.WallStyle;
+import com.boards.core.model.repositories.RetroBoardRepository;
 import com.boards.core.model.repositories.RetroWallRepository;
 import com.boards.core.model.repositories.StickyNoteStyleRepository;
 import com.boards.core.model.repositories.WallStyleRepository;
@@ -16,7 +19,7 @@ import javax.transaction.Transactional;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import static java.lang.String.format;
 import static java.net.URI.create;
@@ -28,11 +31,13 @@ public class RetroWallsService {
     private RetroWallRepository retroWallRepository;
     private StickyNoteStyleRepository stickyNoteStyleRepository;
     private WallStyleRepository wallStyleRepository;
+    private RetroBoardRepository retroBoardRepository;
 
-    public RetroWallsService(RetroWallRepository retroWallRepository, StickyNoteStyleRepository stickyNoteStyleRepository, WallStyleRepository wallStyleRepository) {
+    public RetroWallsService(RetroWallRepository retroWallRepository, StickyNoteStyleRepository stickyNoteStyleRepository, WallStyleRepository wallStyleRepository, RetroBoardRepository retroBoardRepository) {
         this.retroWallRepository = retroWallRepository;
         this.stickyNoteStyleRepository = stickyNoteStyleRepository;
         this.wallStyleRepository = wallStyleRepository;
+        this.retroBoardRepository = retroBoardRepository;
     }
 
     /**
@@ -45,26 +50,30 @@ public class RetroWallsService {
      */
     @Transactional
     public URI createWalls(CreateRetroWallsRequest input) {
-        List<RetroWall> retroWalls = input.getWalls().stream()
-                .map(wall -> wall.createWall())
-                .collect(Collectors.toList());
-        Iterable<RetroWall> persistedRetroWall = retroWallRepository.saveAll(retroWalls);
 
         // Create wall and sticky note style associated to that wall
+        List<RetroWall> retroWalls = new ArrayList<>();
         List<WallStyle> wallStyles = new ArrayList<>();
         List<StickyNoteStyle> stickyNoteStyles = new ArrayList<>();
+
         int index = 0;
-        for (RetroWall retroWall : persistedRetroWall) {
+        for (CreateRetroWallRequest retroWallRequest: input.getWalls()) {
+            RetroWall retroWall = CreateRetroWallRequest.createWall(retroWallRequest);
+
             WallStyle wallStyle = WallStyle.createWallStyle(retroWall);
             CreateStickyNoteStyleRequest stickyNoteStyleRequest = input.getWalls().get(index++).getStyle().getStickyNote();
             StickyNoteStyle stickyNoteStyle = CreateStickyNoteStyleRequest.createStickyNote(retroWall.getWallId(), wallStyle, stickyNoteStyleRequest);
 
+            retroWalls.add(retroWall);
             wallStyles.add(wallStyle);
             stickyNoteStyles.add(stickyNoteStyle);
+
+            log.info("Retro Wall: " + retroWall);
         }
 
-        wallStyleRepository.saveAll(wallStyles);
         stickyNoteStyleRepository.saveAll(stickyNoteStyles);
+        retroWallRepository.saveAll(retroWalls);
+        wallStyleRepository.saveAll(wallStyles);
 
         return create(format("/retro-board/walls/%s", input.getRetroBoardId()));
     }
