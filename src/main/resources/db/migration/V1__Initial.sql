@@ -33,6 +33,15 @@ CREATE TABLE sticky_note_styles
     PRIMARY KEY (sticky_note_style_id)
 );
 
+CREATE TABLE note_styles
+(
+    note_style_id        VARCHAR(255) NOT NULL,
+    background_color     VARCHAR(55)  NOT NULL,
+    text_color           VARCHAR(55)  NOT NULL,
+    like_btn_position    VARCHAR(55)  NOT NULL,
+    PRIMARY KEY (note_style_id)
+);
+
 CREATE TABLE notes
 (
     note_id    VARCHAR(255)  NOT NULL,

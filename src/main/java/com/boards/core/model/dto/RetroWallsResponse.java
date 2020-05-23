@@ -42,9 +42,12 @@ public class RetroWallsResponse {
             log.debug("Retro Wall Output: " + retroWall);
 
             var singleStickyNoteStyle = new StickyNoteStyleResponse();
-            singleStickyNoteStyle.setBackgroundColor(stickyNoteStyle.getBackgroundColor());
-            singleStickyNoteStyle.setLikeBtnPosition(stickyNoteStyle.getLikeBtnPosition());
-            singleStickyNoteStyle.setTextColor(stickyNoteStyle.getTextColor());
+            if (! Objects.isNull(stickyNoteStyle)) {
+                singleStickyNoteStyle.setBackgroundColor(stickyNoteStyle.getBackgroundColor());
+                singleStickyNoteStyle.setLikeBtnPosition(stickyNoteStyle.getLikeBtnPosition());
+                singleStickyNoteStyle.setTextColor(stickyNoteStyle.getTextColor());
+            }
+
 
             var singleWallStyleResponse = new WallStyleResponse();
             singleWallStyleResponse.setStickyNote(singleStickyNoteStyle);
