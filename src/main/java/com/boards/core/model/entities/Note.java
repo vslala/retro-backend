@@ -1,6 +1,5 @@
 package com.boards.core.model.entities;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.Column;

@@ -1,6 +1,8 @@
 package com.boards.core.services;
 
-import com.boards.core.model.dto.*;
+import com.boards.core.model.dto.CreateRetroWallsRequest;
+import com.boards.core.model.dto.CreateStickyNoteStyleRequest;
+import com.boards.core.model.dto.RetroWallsResponse;
 import com.boards.core.model.entities.RetroWall;
 import com.boards.core.model.entities.StickyNoteStyle;
 import com.boards.core.model.entities.WallStyle;
@@ -16,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.lang.String.*;
-import static java.net.URI.*;
+import static java.lang.String.format;
+import static java.net.URI.create;
 
 @Log4j
 @Service

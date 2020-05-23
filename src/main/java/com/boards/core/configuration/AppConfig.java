@@ -1,7 +1,5 @@
 package com.boards.core.configuration;
 
-import java.util.List;
-
 public class AppConfig {
 
     private AppConfig() {}
