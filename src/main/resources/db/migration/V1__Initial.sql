@@ -3,7 +3,9 @@ CREATE TABLE retro_boards
     id        VARCHAR(255) NOT NULL,
     name      VARCHAR(255) NOT NULL,
     blur      VARCHAR(5)   NOT NULL,
-    max_likes INT
+    max_likes INT,
+    user_id   VARCHAR (255) NOT NULL,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE retro_walls
@@ -49,6 +51,13 @@ CREATE TABLE notes
     board_id   VARCHAR(255)  NOT NULL,
     wall_id    VARCHAR(255)  NOT NULL,
     created_by VARCHAR(55)   NOT NULL
+);
+
+CREATE TABLE votes
+(
+    item_id     VARCHAR (255) NOT NULL,
+    vote_by     VARCHAR (255) NOT NULL,
+    type        VARCHAR (55)  NOT NULL
 );
 
 CREATE TABLE users

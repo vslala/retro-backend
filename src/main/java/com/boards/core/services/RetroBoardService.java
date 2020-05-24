@@ -26,8 +26,7 @@ public class RetroBoardService {
     }
 
     public CreateResponse createRetroBoard(CreateRetroBoardRequest input) {
-        RetroBoard retroBoard = RetroBoard.newInstance(input.getName(), input.getMaxLikes());
-        retroBoard.generateUniqId(); // generates uniq id for itself
+        RetroBoard retroBoard = input.createRetroBoard();
         RetroBoard persist = retroBoardRepository.save(retroBoard);
 
         return CreateResponse.builder().resourceUrl(
