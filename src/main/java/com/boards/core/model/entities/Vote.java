@@ -2,10 +2,7 @@ package com.boards.core.model.entities;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
@@ -15,16 +12,33 @@ import java.io.Serializable;
 public class Vote {
 
     @Id
-    private String item_id;
+    @Column(name = "item_id")
+    private String itemId;
+
     @Id
-    private String vote_by;
+    @Column(name = "vote_by")
+    private String voteBy;
+
     @Id
+    @Column(name = "type")
     private String type;
+
+    public static Vote newInstance(String itemId, String voteBy, String type) {
+        Vote vote = new Vote();
+        vote.setItemId(itemId);
+        vote.setVoteBy(voteBy);
+        vote.setType(type);
+        return vote;
+    }
+
+    public enum Type {
+        NOTE
+    }
 
     @Data
     public static class VoteId implements Serializable {
-        private String item_id;
-        private String vote_by;
+        private String itemId;
+        private String voteBy;
         private String type;
     }
 }

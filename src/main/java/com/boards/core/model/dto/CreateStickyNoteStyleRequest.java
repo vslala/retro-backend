@@ -3,10 +3,13 @@ package com.boards.core.model.dto;
 import com.boards.core.configuration.AppUtil;
 import com.boards.core.model.entities.StickyNoteStyle;
 import com.boards.core.model.entities.WallStyle;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateStickyNoteStyleRequest {
+    private String noteStyleId;
     private String backgroundColor;
     private String likeBtnPosition;
     private String textColor;
