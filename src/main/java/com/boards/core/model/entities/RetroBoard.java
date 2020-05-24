@@ -1,16 +1,14 @@
 package com.boards.core.model.entities;
 
-import com.boards.core.configuration.AppConfig;
-import com.boards.core.configuration.AppUtil;
 import com.google.firebase.database.annotations.NotNull;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Data
-@NoArgsConstructor
 @Entity
 @Table(name = "retro_boards")
 public class RetroBoard {
@@ -23,7 +21,7 @@ public class RetroBoard {
     private String name;
 
     @Column(name = "blur")
-    private String blur = "off";
+    private String blur;
 
     @Column(name = "max_likes")
     @NotNull
@@ -31,18 +29,6 @@ public class RetroBoard {
 
     @Column(name = "user_id")
     @NotNull
-    private String userId = "someuserid";
+    private String userId;
 
-    public static RetroBoard newInstance(String name, int maxLikes) {
-        RetroBoard retroBoard = new RetroBoard();
-        retroBoard.setId(AppUtil.uniqId());
-        retroBoard.setName(name);
-        retroBoard.setMaxLikes(maxLikes);
-        retroBoard.setUserId(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmail());
-        return retroBoard;
-    }
-
-    public void generateUniqId() {
-        this.id = AppUtil.uniqId();
-    }
 }

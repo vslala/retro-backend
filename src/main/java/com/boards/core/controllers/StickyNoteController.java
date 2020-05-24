@@ -61,6 +61,6 @@ public class StickyNoteController {
     }
 
     private void sendToNotesTopic(URI uri, String retroBoardId) {
-        this.simpMessagingTemplate.convertAndSend("/topic/notes/" + retroBoardId, uri);
+        this.simpMessagingTemplate.convertAndSend("/topic/notes/" + retroBoardId, uri.toString());
     }
 }

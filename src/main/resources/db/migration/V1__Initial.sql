@@ -2,7 +2,7 @@ CREATE TABLE retro_boards
 (
     id        VARCHAR(255) NOT NULL,
     name      VARCHAR(255) NOT NULL,
-    blur      VARCHAR(5)   NOT NULL,
+    blur      VARCHAR(12)   DEFAULT 'off',
     max_likes INT,
     user_id   VARCHAR (255) NOT NULL,
     PRIMARY KEY (id)
