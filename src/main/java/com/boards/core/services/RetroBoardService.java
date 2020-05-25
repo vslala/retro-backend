@@ -1,5 +1,6 @@
 package com.boards.core.services;
 
+import com.boards.core.configuration.AppUtil;
 import com.boards.core.model.dto.CreateResponse;
 import com.boards.core.model.dto.RetroBoardRequest;
 import com.boards.core.model.entities.RetroBoard;
@@ -7,6 +8,7 @@ import com.boards.core.model.repositories.RetroBoardRepository;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -43,7 +45,7 @@ public class RetroBoardService {
 
     @SneakyThrows
     public List<RetroBoard> getRetroBoards() {
-        return retroBoardRepository.findAll();
+        return retroBoardRepository.findAllByUserId(AppUtil.getLoggedInUser().getUid());
     }
 
     public URI updateRetroBoard(RetroBoardRequest retroBoardRequest) {

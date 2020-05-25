@@ -1,5 +1,9 @@
 package com.boards.core.configuration;
 
+import com.boards.core.model.entities.User;
+import com.google.firebase.auth.FirebaseToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import java.util.Base64;
 import java.util.UUID;
 
@@ -18,5 +22,9 @@ public class AppUtil {
 
     public static String anonymousDisplayName(String anonymousUid) {
         return "anonymous_user_".concat(anonymousUid);
+    }
+
+    public static User getLoggedInUser() {
+        return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

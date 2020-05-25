@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface RetroBoardRepository extends CrudRepository<RetroBoard, String> {
     List<RetroBoard> findAll();
+
+    List<RetroBoard> findAllByUserId(String uid);
 }
