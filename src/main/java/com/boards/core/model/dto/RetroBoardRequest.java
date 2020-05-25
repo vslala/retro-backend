@@ -30,7 +30,7 @@ public class RetroBoardRequest {
         retroBoard.setName(name);
         retroBoard.setMaxLikes(maxLikes);
         retroBoard.setBlur(blur);
-        retroBoard.setUserId(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmail());
+        retroBoard.setUserId(((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUid());
         return retroBoard;
     }
 
