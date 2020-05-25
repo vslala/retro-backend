@@ -4,6 +4,7 @@ import com.boards.core.model.dto.NoteRequest;
 import com.boards.core.model.dto.NoteResponse;
 import com.boards.core.model.dto.NotesResponse;
 import com.boards.core.services.StickyNoteService;
+import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -14,6 +15,7 @@ import java.net.URI;
 import static com.boards.core.configuration.AppConfig.*;
 
 @CrossOrigin(exposedHeaders = {EXPOSE_ACCESS_TOKEN, EXPOSE_LOCATION, EXPOSE_UID})
+@Log4j
 @RestController
 @RequestMapping("/retro-board/walls/notes")
 public class StickyNoteController {
@@ -28,6 +30,7 @@ public class StickyNoteController {
 
     @PostMapping
     public ResponseEntity<URI> createNote(@RequestBody NoteRequest noteRequest) {
+        log.info("<createNote>: Input: \n" + noteRequest);
         URI uri = stickyNoteService.createNoteForWall(noteRequest);
         sendToNotesTopic(uri, noteRequest.getRetroBoardId());
         return ResponseEntity.created(uri).build();

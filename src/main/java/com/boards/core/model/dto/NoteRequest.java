@@ -31,7 +31,7 @@ public class NoteRequest {
         note.setNoteText(noteText);
         note.setRetroBoardId(retroBoardId);
         note.setWallId(wallId);
-        note.setCreatedBy(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmail());
+        note.setCreatedBy(((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUid());
         return note;
     }
 

@@ -30,13 +30,22 @@ public class RetroBoardTokenAuthenticationFilter extends OncePerRequestFilter {
             String idTokenString = idTokenHeader.substring(7).trim();
 
             verifyToken(idTokenString).ifPresent(idToken -> {
-                User user = buildUser(idToken);
+                User user = idToken.isEmailVerified() ? buildUser(idToken) : buildAnonymousUser(idToken);
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             });
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private User buildAnonymousUser(FirebaseToken idToken) {
+        User user = new User();
+        String anonymousUid = String.valueOf(idToken.getClaims().get("user_id"));
+        user.setUid(anonymousUid);
+        user.setEmail(AppUtil.anonymousEmail(anonymousUid));
+        user.setDisplayName(AppUtil.anonymousDisplayName(anonymousUid));
+        return user;
     }
 
 

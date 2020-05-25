@@ -11,4 +11,12 @@ public class AppUtil {
         String uniqId = UUID.randomUUID().toString();
         return Base64.getEncoder().encodeToString(uniqId.getBytes());
     }
+
+    public static String anonymousEmail(String anonymousUid) {
+        return  anonymousUid.concat("@retro.com");
+    }
+
+    public static String anonymousDisplayName(String anonymousUid) {
+        return "anonymous_user_".concat(anonymousUid);
+    }
 }
