@@ -39,7 +39,7 @@ public class RetroBoardTokenAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private User buildAnonymousUser(FirebaseToken idToken) {
+    public static User buildAnonymousUser(FirebaseToken idToken) {
         User user = new User();
         String anonymousUid = String.valueOf(idToken.getClaims().get("user_id"));
         user.setUid(anonymousUid);
@@ -49,7 +49,7 @@ public class RetroBoardTokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
 
-    private User buildUser(FirebaseToken idToken) {
+    public static User buildUser(FirebaseToken idToken) {
         User user = new User();
         user.setUid(idToken.getUid());
         user.setEmail(idToken.getEmail());

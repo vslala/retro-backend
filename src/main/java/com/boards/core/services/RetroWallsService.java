@@ -51,6 +51,12 @@ public class RetroWallsService {
     @Transactional
     public URI createWalls(CreateRetroWallsRequest input) {
 
+        // check if walls are already created
+        // and if exists return the existing walls uri
+        List<Object[]> persistedRetroWalls = retroWallRepository.findAllWallsForBoard(input.getRetroBoardId());
+        if (!persistedRetroWalls.isEmpty())
+            return create(format("/retro-board/walls/%s", input.getRetroBoardId()));
+
         // Create wall and sticky note style associated to that wall
         List<RetroWall> retroWalls = new ArrayList<>();
         List<WallStyle> wallStyles = new ArrayList<>();

@@ -1,4 +1,4 @@
-package com.boards.core.configuration;
+package com.boards.core.configuration.websocket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
