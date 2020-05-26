@@ -1,0 +1,51 @@
+stages:
+  - build
+  - package
+  - deploy
+
+variables:
+  REGISTRY_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+
+build:
+  image: gradle:jdk11
+  stage: build
+  only:
+    - master
+  script:
+    - echo "Building the app"
+    - gradle --build-cache bootjar -x test
+  artifacts:
+    paths:
+      - build
+      - .gradle
+
+
+docker-build:
+  image: docker:latest
+  services:
+    - docker:dind
+  stage: package
+  only:
+    - master
+  script:
+    - docker build -t $REGISTRY_IMAGE .
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker push $REGISTRY_IMAGE
+
+test:
+  image: alpine:latest
+  stage: deploy
+  script:
+    - echo "Alpine image created!"
+    - apk update && apk add openssh-server openssh-client
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SERVER_KEY" | tr -d '\r' | ssh-add -
+    - echo "$SERVER_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - alias run="ssh -i ~/.ssh/id_rsa -o \"StrictHostKeyChecking no\" ${SERVER_USERNAME}@${SERVER_IP}"
+    - run 'echo SSH Successful! -> Home Directory=$HOME'
+    - run 'docker login -u ${SERVER_USERNAME} -p ${DEPLOY_TOKEN} ${CI_REGISTRY}'
+    - run 'docker pull ${REGISTRY_IMAGE}'
+    - run 'sh deploy.sh ${MYSQL_CONTAINER_NAME} ${CI_REGISTRY_IMAGE} ${CI_COMMIT_SHA} ${MYSQL_ROOT_PASSWORD} ${MYSQL_USER} ${MYSQL_PASS} ${CREDENTIAL_FILE_NAME} ${SPRING_ACTIVE_PROFILE}'
