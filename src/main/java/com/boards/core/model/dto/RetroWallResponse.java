@@ -14,4 +14,5 @@ public class RetroWallResponse {
     private String title;
     private WallStyleResponse style;
     private boolean sortCards;
+    private Integer wallOrder;
 }

@@ -15,6 +15,7 @@ CREATE TABLE retro_walls
     title          VARCHAR(255) NOT NULL,
     wall_style     VARCHAR(255),
     sort_cards     BOOLEAN NOT NULL DEFAULT FALSE,
+    wall_order     INT NOT NULL,
     PRIMARY KEY (wall_id)
 );
 

@@ -27,4 +27,7 @@ public class RetroWall {
     @Column(name = "sort_cards")
     private boolean sortCards;
 
+    @Column(name = "wall_order")
+    private int wallOrder;
+
 }

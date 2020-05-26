@@ -13,6 +13,7 @@ public class CreateRetroWallRequest {
     private String title;
     private boolean sortCards;
     private CreateWallStyleRequest style;
+    private Integer wallOrder;
 
     public static RetroWall createWall(CreateRetroWallRequest wall) {
         RetroWall retroWall = new RetroWall();
@@ -21,6 +22,7 @@ public class CreateRetroWallRequest {
         retroWall.setRetroBoardId(wall.getRetroBoardId());
         retroWall.setSortCards(wall.isSortCards());
         retroWall.setWallStyle(AppUtil.uniqId());
+        retroWall.setWallOrder(wall.getWallOrder());
         return retroWall;
     }
 }
