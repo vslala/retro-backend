@@ -32,14 +32,12 @@ public class RetroWallsResponse {
     }
 
     public static RetroWallsResponse fromListObjects(List<Object[]> resultSet) {
+        log.debug("Generating response for walls...");
         RetroWallsResponse responses = new RetroWallsResponse();
-        log.debug("Result Set Size: " + resultSet.size());
         for (Object[] objects : resultSet) {
             var retroWall = (RetroWall) objects[0];
             var wallStyle = (WallStyle) objects[1];
             var stickyNoteStyle = (StickyNoteStyle) objects[2];
-
-            log.debug("Retro Wall Output: " + retroWall);
 
             var singleStickyNoteStyle = new StickyNoteStyleResponse();
             if (! Objects.isNull(stickyNoteStyle)) {

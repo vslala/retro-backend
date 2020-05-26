@@ -30,7 +30,6 @@ public class StickyNoteController {
 
     @PostMapping
     public ResponseEntity<URI> createNote(@RequestBody NoteRequest noteRequest) {
-        log.info("<createNote>: Input: \n" + noteRequest);
         URI uri = stickyNoteService.createNoteForWall(noteRequest);
         sendToNotesTopic(uri, noteRequest.getRetroBoardId());
         return ResponseEntity.created(uri).build();

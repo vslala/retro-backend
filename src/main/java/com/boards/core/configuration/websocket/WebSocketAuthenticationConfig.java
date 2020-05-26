@@ -43,13 +43,14 @@ public class WebSocketAuthenticationConfig implements WebSocketMessageBrokerConf
             StompHeaderAccessor headerAccessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
             if (StompCommand.CONNECT.equals(headerAccessor.getCommand())) {
                 List<String> authorization = headerAccessor.getNativeHeader("Authorization");
-                log.debug("     Authorization: " + authorization);
 
                 if (Objects.isNull(authorization) && authorization.isEmpty())  return message;
 
                 String authorizationHeader = authorization.get(0).substring(7);
                 FirebaseToken idToken = FirebaseAuth.getInstance().verifyIdToken(authorizationHeader);
                 User user = idToken.isEmailVerified() ? buildUser(idToken) : buildAnonymousUser(idToken);
+
+                log.debug("User is valid!");
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
                 headerAccessor.setUser(authToken);
             }

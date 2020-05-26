@@ -73,8 +73,6 @@ public class RetroWallsService {
             retroWalls.add(retroWall);
             wallStyles.add(wallStyle);
             stickyNoteStyles.add(stickyNoteStyle);
-
-            log.info("Retro Wall: " + retroWall);
         }
 
         stickyNoteStyleRepository.saveAll(stickyNoteStyles);
