@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  web:
+    container_name: retro-board-backend
+    environment:
+      - IMAGE_REPOSITORY
+      - IMAGE_TAG
+      - SPRING_DATASOURCE_URL
+      - SPRING_DATASOURCE_USERNAME
+      - SPRING_DATASOURCE_PASSWORD
+      - CREDENTIAL_FILE_NAME
+      - SPRING_ACTIVE_PROFILE
+    image: ${IMAGE_REPOSITORY}:${IMAGE_TAG}
+    ports:
+      - '8082:8082'
+    expose:
+      - '8082'
+  mysql:
+    container_name: ${MYSQL_CONTAINER_NAME}
+    restart: always
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_USER
+      - MYSQL_PASS
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - mysql_db_data:/var/lib/mysql
+
+
+volumes:
+  mysql_db_data:
