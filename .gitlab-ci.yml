@@ -48,4 +48,4 @@ deploy:
     - run 'echo SSH Successful! -> Home Directory=$HOME'
     - run "sudo docker login -u gitlab+deploy-token-177721 -p ${DEPLOY_TOKEN} registry.gitlab.com"
     - run "sudo docker pull ${REGISTRY_IMAGE}"
-    - run "sudo sh deploy.sh ${MYSQL_CONTAINER_NAME} ${CI_REGISTRY_IMAGE} ${CI_COMMIT_SHA} ${MYSQL_ROOT_PASSWORD} ${MYSQL_USER} ${MYSQL_PASS} ${CREDENTIAL_FILE_NAME} ${SPRING_ACTIVE_PROFILE}"
+    - run "sudo sh deploy.sh ${MYSQL_CONTAINER_NAME} ${CI_REGISTRY_IMAGE} ${CI_COMMIT_SHA} ${MYSQL_ROOT_PASSWORD} ${MYSQL_USER} ${MYSQL_PASS} ${MYSQL_PORT} ${CREDENTIAL_FILE_NAME} ${SPRING_ACTIVE_PROFILE}"
