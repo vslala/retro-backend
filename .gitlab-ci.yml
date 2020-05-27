@@ -32,7 +32,7 @@ docker-build:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker push $REGISTRY_IMAGE
 
-test:
+deploy:
   image: alpine:latest
   stage: deploy
   script:
@@ -46,6 +46,6 @@ test:
     - chmod 600 ~/.ssh/id_rsa
     - alias run="ssh -i ~/.ssh/id_rsa -o \"StrictHostKeyChecking no\" ${SERVER_USERNAME}@${SERVER_IP}"
     - run 'echo SSH Successful! -> Home Directory=$HOME'
-    - run 'docker login -u ${SERVER_USERNAME} -p ${DEPLOY_TOKEN} ${CI_REGISTRY}'
-    - run 'docker pull ${REGISTRY_IMAGE}'
-    - run 'sh deploy.sh ${MYSQL_CONTAINER_NAME} ${CI_REGISTRY_IMAGE} ${CI_COMMIT_SHA} ${MYSQL_ROOT_PASSWORD} ${MYSQL_USER} ${MYSQL_PASS} ${CREDENTIAL_FILE_NAME} ${SPRING_ACTIVE_PROFILE}'
+    - run "sudo docker login -u gitlab+deploy-token-177721 -p ${DEPLOY_TOKEN} registry.gitlab.com"
+    - run "sudo docker pull ${REGISTRY_IMAGE}"
+    - run "sudo sh deploy.sh ${MYSQL_CONTAINER_NAME} ${CI_REGISTRY_IMAGE} ${CI_COMMIT_SHA} ${MYSQL_ROOT_PASSWORD} ${MYSQL_USER} ${MYSQL_PASS} ${CREDENTIAL_FILE_NAME} ${SPRING_ACTIVE_PROFILE}"
