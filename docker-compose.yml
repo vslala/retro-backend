@@ -24,10 +24,11 @@ services:
       - MYSQL_ROOT_PASSWORD
       - MYSQL_USER
       - MYSQL_PASS
+      - MYSQL_PORT
     ports:
-      - '3306:3306'
+      - ${MYSQL_PORT}:3306
     expose:
-      - '3306'
+      - ${MYSQL_PORT}
     volumes:
       - mysql_db_data:/var/lib/mysql
 
