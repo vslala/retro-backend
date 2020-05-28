@@ -13,6 +13,7 @@ build:
     - master
   script:
     - echo "Building the app"
+    - echo $CREDENTIAL_FILE
     - echo $CREDENTIAL_FILE | base64 -d  > $CREDENTIAL_FILE_NAME
     - gradle --build-cache bootjar -x test
   artifacts:
