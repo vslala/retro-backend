@@ -47,10 +47,10 @@ deploy:
     - chmod 600 ~/.ssh/id_rsa
     - alias run="ssh -i ~/.ssh/id_rsa -o \"StrictHostKeyChecking no\" ${SERVER_USERNAME}@${SERVER_IP}"
     - run 'echo SSH Successful! -> Home Directory=$HOME'
-    - run 'sudo docker container stop retro-board-backend'
-    - run 'sudo docker rm retro-board-backend'
+    - run 'sudo docker container stop retro-board-backend || true'
+    - run 'sudo docker rm retro-board-backend || true'
     - run 'sudo docker system prune -f'
-    - run 'sudo docker images | grep "registry.gitlab.com" | xargs sudo docker rmi'
+    - run 'sudo docker images | grep "registry.gitlab.com" | xargs sudo docker rmi || true'
     - run "sudo docker login -u gitlab+deploy-token-177721 -p ${DEPLOY_TOKEN} registry.gitlab.com"
     - run "sudo docker pull ${REGISTRY_IMAGE}"
     - run "sudo sh deploy.sh ${MYSQL_CONTAINER_NAME} ${CI_REGISTRY_IMAGE} ${CI_COMMIT_SHA} ${MYSQL_ROOT_PASSWORD} ${MYSQL_USER} ${MYSQL_PASS} ${MYSQL_PORT} ${CREDENTIAL_FILE_NAME} ${SPRING_ACTIVE_PROFILE}"
