@@ -36,6 +36,9 @@ docker-build:
 deploy:
   image: alpine:latest
   stage: deploy
+  only:
+    - master
+  when: manual
   script:
     - echo "Alpine image created!"
     - apk update && apk add openssh-server openssh-client
