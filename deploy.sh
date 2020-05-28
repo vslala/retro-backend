@@ -1,4 +1,3 @@
-sudo docker images | grep "registry.gitlab.com" | xargs sudo docker rmi
 export MYSQL_CONTAINER_NAME=$1
 export IMAGE_REPOSITORY=$2
 export IMAGE_TAG=$3
@@ -14,3 +13,4 @@ export SPRING_ACTIVE_PROFILE=$9
 docker-compose config
 docker-compose pull
 docker-compose up
+sudo docker images | grep "registry.gitlab.com" | xargs sudo docker rmi

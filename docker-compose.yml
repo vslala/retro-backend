@@ -26,9 +26,9 @@ services:
       - MYSQL_PASS
       - MYSQL_PORT
     ports:
-      - ${MYSQL_PORT}:3306
+      - "${MYSQL_PORT}:3306/tcp"
     expose:
-      - ${MYSQL_PORT}
+      - "${MYSQL_PORT}"
     volumes:
       - mysql_db_data:/var/lib/mysql
 
