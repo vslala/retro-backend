@@ -10,8 +10,10 @@ import lombok.Data;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
@@ -45,9 +47,12 @@ public class NoteRequest {
     }
 
     public List<Vote> createVotes() {
-        List<Vote> votes = new ArrayList<>();
-        if (Objects.isNull(likedBy)) return votes;
-        likedBy.forEach(likeBy -> votes.add(Vote.newInstance(noteId, likeBy.getUid(), "NOTE")));
+        if (Objects.isNull(likedBy)) return Collections.emptyList();
+
+        List<Vote> votes = likedBy.stream().filter(likedBy -> !Objects.isNull(likedBy.getUid()) && !likedBy.getUid().isEmpty())
+                .collect(Collectors.toList()).stream()
+                .map(likedBy -> Vote.newInstance(noteId, likedBy.getUid(), "NOTE"))
+                .collect(Collectors.toList());
 
         return votes;
     }
