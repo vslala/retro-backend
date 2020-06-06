@@ -1,11 +1,11 @@
 package com.boards.core.controllers;
 
 import com.boards.core.RetroBoardMother;
-import com.boards.core.model.dto.CreateRetroWallRequest;
-import com.boards.core.model.dto.CreateRetroWallsRequest;
-import com.boards.core.model.dto.CreateStickyNoteStyleRequest;
-import com.boards.core.model.dto.CreateWallStyleRequest;
-import com.boards.core.model.entities.RetroBoard;
+import com.boards.core.model.dto.retroboard.CreateRetroWallRequest;
+import com.boards.core.model.dto.retroboard.CreateRetroWallsRequest;
+import com.boards.core.model.dto.retroboard.CreateStickyNoteStyleRequest;
+import com.boards.core.model.dto.retroboard.CreateWallStyleRequest;
+import com.boards.core.model.entities.retroboard.RetroBoard;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

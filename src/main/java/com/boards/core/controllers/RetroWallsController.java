@@ -1,7 +1,7 @@
 package com.boards.core.controllers;
 
-import com.boards.core.model.dto.CreateRetroWallsRequest;
-import com.boards.core.model.dto.RetroWallsResponse;
+import com.boards.core.model.dto.retroboard.CreateRetroWallsRequest;
+import com.boards.core.model.dto.retroboard.RetroWallsResponse;
 import com.boards.core.services.RetroWallsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,6 @@
 package com.boards.core.configuration;
 
-import com.boards.core.model.entities.User;
-import com.google.firebase.auth.FirebaseToken;
+import com.boards.core.model.entities.retroboard.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Base64;

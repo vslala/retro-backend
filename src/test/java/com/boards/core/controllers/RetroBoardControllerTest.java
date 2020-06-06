@@ -1,7 +1,7 @@
 package com.boards.core.controllers;
 
 import com.boards.core.RetroBoardMother;
-import com.boards.core.model.entities.RetroBoard;
+import com.boards.core.model.entities.retroboard.RetroBoard;
 import com.google.firebase.auth.FirebaseAuthException;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.Location;
