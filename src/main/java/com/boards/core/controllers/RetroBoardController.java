@@ -1,8 +1,8 @@
 package com.boards.core.controllers;
 
-import com.boards.core.model.dto.CreateResponse;
-import com.boards.core.model.dto.RetroBoardRequest;
-import com.boards.core.model.entities.RetroBoard;
+import com.boards.core.model.dto.retroboard.CreateResponse;
+import com.boards.core.model.dto.retroboard.RetroBoardRequest;
+import com.boards.core.model.entities.retroboard.RetroBoard;
 import com.boards.core.services.RetroBoardService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import static com.boards.core.configuration.AppUtil.getLoggedInUser;
 import static java.net.URI.create;
 
 @Log4j
@@ -40,9 +41,11 @@ public class RetroBoardController {
 
     @GetMapping("/{retroBoardId}")
     public ResponseEntity<RetroBoard> get(@PathVariable String retroBoardId) {
-        Optional<RetroBoard> retroBoard = retroBoardService.getRetroBoard(retroBoardId);
-        if (retroBoard.isEmpty()) return ResponseEntity.notFound().build();
-        else return ResponseEntity.ok(retroBoard.get());
+        Optional<RetroBoard> retroBoard = retroBoardService.getRetroBoard(getLoggedInUser(), retroBoardId);
+        if (retroBoard.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(retroBoard.get());
     }
 
     @GetMapping

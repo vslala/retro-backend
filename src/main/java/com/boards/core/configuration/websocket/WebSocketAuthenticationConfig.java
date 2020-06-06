@@ -1,6 +1,6 @@
 package com.boards.core.configuration.websocket;
 
-import com.boards.core.model.entities.User;
+import com.boards.core.model.entities.retroboard.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;
 import lombok.SneakyThrows;
@@ -23,7 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static com.boards.core.configuration.RetroBoardTokenAuthenticationFilter.*;
+import static com.boards.core.configuration.RetroBoardTokenAuthenticationFilter.buildAnonymousUser;
+import static com.boards.core.configuration.RetroBoardTokenAuthenticationFilter.buildUser;
 
 @Log4j
 @Configuration

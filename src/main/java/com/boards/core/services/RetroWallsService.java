@@ -1,17 +1,16 @@
 package com.boards.core.services;
 
-import com.boards.core.model.dto.CreateRetroWallRequest;
-import com.boards.core.model.dto.CreateRetroWallsRequest;
-import com.boards.core.model.dto.CreateStickyNoteStyleRequest;
-import com.boards.core.model.dto.RetroWallsResponse;
-import com.boards.core.model.entities.RetroBoard;
-import com.boards.core.model.entities.RetroWall;
-import com.boards.core.model.entities.StickyNoteStyle;
-import com.boards.core.model.entities.WallStyle;
-import com.boards.core.model.repositories.RetroBoardRepository;
-import com.boards.core.model.repositories.RetroWallRepository;
-import com.boards.core.model.repositories.StickyNoteStyleRepository;
-import com.boards.core.model.repositories.WallStyleRepository;
+import com.boards.core.model.dto.retroboard.CreateRetroWallRequest;
+import com.boards.core.model.dto.retroboard.CreateRetroWallsRequest;
+import com.boards.core.model.dto.retroboard.CreateStickyNoteStyleRequest;
+import com.boards.core.model.dto.retroboard.RetroWallsResponse;
+import com.boards.core.model.entities.retroboard.RetroWall;
+import com.boards.core.model.entities.retroboard.StickyNoteStyle;
+import com.boards.core.model.entities.retroboard.WallStyle;
+import com.boards.core.model.repositories.retroboard.RetroBoardRepository;
+import com.boards.core.model.repositories.retroboard.RetroWallRepository;
+import com.boards.core.model.repositories.retroboard.StickyNoteStyleRepository;
+import com.boards.core.model.repositories.retroboard.WallStyleRepository;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,6 @@ import javax.transaction.Transactional;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static java.lang.String.format;
 import static java.net.URI.create;

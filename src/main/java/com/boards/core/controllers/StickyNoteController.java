@@ -1,8 +1,8 @@
 package com.boards.core.controllers;
 
-import com.boards.core.model.dto.NoteRequest;
-import com.boards.core.model.dto.NoteResponse;
-import com.boards.core.model.dto.NotesResponse;
+import com.boards.core.model.dto.retroboard.NoteRequest;
+import com.boards.core.model.dto.retroboard.NoteResponse;
+import com.boards.core.model.dto.retroboard.NotesResponse;
 import com.boards.core.services.StickyNoteService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;

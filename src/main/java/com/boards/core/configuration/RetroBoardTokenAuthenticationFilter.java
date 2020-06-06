@@ -1,6 +1,6 @@
 package com.boards.core.configuration;
 
-import com.boards.core.model.entities.User;
+import com.boards.core.model.entities.retroboard.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -62,7 +62,7 @@ public class RetroBoardTokenAuthenticationFilter extends OncePerRequestFilter {
         try {
             idToken = FirebaseAuth.getInstance().verifyIdToken(idTokenString);
         } catch (FirebaseAuthException e) {
-            log.warn("Invalid Token! \n" + idTokenString + "\nMessage=" + e.getMessage(), e);
+            log.warn("Invalid Token! \n" + idTokenString + "\nMessage=" + e.getMessage());
         }
         return Objects.isNull(idToken) ? Optional.empty() : Optional.of(idToken);
     }
