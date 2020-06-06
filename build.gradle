@@ -34,6 +34,7 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-test'
 	implementation 'log4j:log4j:1.2.17'
 	implementation 'com.h2database:h2:1.4.200'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
