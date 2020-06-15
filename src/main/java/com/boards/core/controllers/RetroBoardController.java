@@ -1,5 +1,6 @@
 package com.boards.core.controllers;
 
+import com.boards.core.configuration.AppUtil;
 import com.boards.core.model.dto.retroboard.CreateResponse;
 import com.boards.core.model.dto.retroboard.RetroBoardRequest;
 import com.boards.core.model.entities.retroboard.RetroBoard;
@@ -58,6 +59,12 @@ public class RetroBoardController {
     public ResponseEntity<HttpStatus> updateRetroBoard(@RequestBody RetroBoardRequest retroBoardRequest) {
         URI uri = retroBoardService.updateRetroBoard(retroBoardRequest);
         this.simpMessagingTemplate.convertAndSend("/topic/retro-board/" + retroBoardRequest.getId(), uri.toString());
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{retroBoardId}")
+    public ResponseEntity<HttpStatus> deleteBoard(@PathVariable String retroBoardId) {
+        retroBoardService.deleteBoard(AppUtil.getLoggedInUser(), retroBoardId);
         return ResponseEntity.noContent().build();
     }
 }

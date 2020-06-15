@@ -7,15 +7,15 @@ import lombok.Data;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class CreateRetroWallRequest {
+public class RetroWallRequest {
     private String wallId;
     private String retroBoardId;
     private String title;
     private boolean sortCards;
-    private CreateWallStyleRequest style;
+    private WallStyleRequest style;
     private Integer wallOrder;
 
-    public static RetroWall createWall(CreateRetroWallRequest wall) {
+    public static RetroWall createWall(RetroWallRequest wall) {
         RetroWall retroWall = new RetroWall();
         retroWall.setTitle(wall.getTitle());
         retroWall.setWallId(AppUtil.uniqId());

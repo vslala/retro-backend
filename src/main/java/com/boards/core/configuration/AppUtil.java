@@ -4,7 +4,10 @@ import com.boards.core.model.entities.retroboard.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Base64;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class AppUtil {
 
@@ -25,5 +28,9 @@ public class AppUtil {
 
     public static User getLoggedInUser() {
         return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    public static <T> List<T> convertToList(Iterable<T> iterable) {
+        return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
     }
 }

@@ -7,7 +7,7 @@ import com.boards.core.model.entities.retroboard.WallStyle;
 import lombok.Data;
 
 @Data
-public class CreateWallStyleRequest {
+public class WallStyleRequest {
     CreateStickyNoteStyleRequest stickyNote;
 
     public WallStyle createWallStyle(RetroWall retroWall, StickyNoteStyle stickyNoteWallStyle) {

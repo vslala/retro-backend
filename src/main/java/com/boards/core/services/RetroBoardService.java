@@ -9,7 +9,9 @@ import com.boards.core.model.entities.retroboard.RetroBoard;
 import com.boards.core.model.entities.retroboard.User;
 import com.boards.core.model.entities.shareitems.SharedItem;
 import com.boards.core.model.entities.teams.TeamMember;
+import com.boards.core.model.repositories.retroboard.NoteRepository;
 import com.boards.core.model.repositories.retroboard.RetroBoardRepository;
+import com.boards.core.model.repositories.retroboard.RetroWallRepository;
 import com.boards.core.model.repositories.shareitems.SharedItemRepository;
 import com.boards.core.model.repositories.teams.TeamMemberRepository;
 import com.boards.core.model.repositories.teams.TeamRepository;
@@ -18,9 +20,11 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.net.URI.create;
 
@@ -32,13 +36,17 @@ public class RetroBoardService {
     private SharedItemRepository sharedItemRepository;
     private TeamRepository teamRepository;
     private TeamMemberRepository teamMemberRepository;
+    private RetroWallRepository retroWallRepository;
+    private NoteRepository noteRepository;
 
     @Autowired
-    public RetroBoardService(RetroBoardRepository retroBoardRepository, SharedItemRepository sharedItemRepository, TeamRepository teamRepository, TeamMemberRepository teamMemberRepository) {
+    public RetroBoardService(RetroBoardRepository retroBoardRepository, SharedItemRepository sharedItemRepository, TeamRepository teamRepository, TeamMemberRepository teamMemberRepository, RetroWallRepository retroWallRepository, NoteRepository noteRepository) {
         this.retroBoardRepository = retroBoardRepository;
         this.sharedItemRepository = sharedItemRepository;
         this.teamRepository = teamRepository;
         this.teamMemberRepository = teamMemberRepository;
+        this.retroWallRepository = retroWallRepository;
+        this.noteRepository = noteRepository;
     }
 
     public CreateResponse createRetroBoard(RetroBoardRequest input) {
@@ -79,5 +87,21 @@ public class RetroBoardService {
     public URI updateRetroBoard(RetroBoardRequest retroBoardRequest) {
         RetroBoard retroBoard = retroBoardRepository.save(retroBoardRequest.updateRetroBoard());
         return create("/retro-board/" + retroBoard.getId());
+    }
+
+    @Transactional
+    public void deleteBoard(User loggedInUser, String retroBoardId) {
+        Optional<RetroBoard> retroBoard = retroBoardRepository.findById(retroBoardId);
+        retroBoard.ifPresent(board -> {
+            if (board.getUserId().equals(loggedInUser.getUid())) {
+                noteRepository.deleteAllByWallIdIn(
+                        retroWallRepository.findAllByRetroBoardId(retroBoardId)
+                                .stream()
+                                .map(wall -> wall.getWallId())
+                                .collect(Collectors.toList()));
+                retroWallRepository.deleteByRetroBoardId(retroBoardId);
+                retroBoardRepository.deleteById(board.getId());
+            }
+        });
     }
 }

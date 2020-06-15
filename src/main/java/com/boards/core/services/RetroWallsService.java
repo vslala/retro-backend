@@ -1,8 +1,8 @@
 package com.boards.core.services;
 
-import com.boards.core.model.dto.retroboard.CreateRetroWallRequest;
 import com.boards.core.model.dto.retroboard.CreateRetroWallsRequest;
 import com.boards.core.model.dto.retroboard.CreateStickyNoteStyleRequest;
+import com.boards.core.model.dto.retroboard.RetroWallRequest;
 import com.boards.core.model.dto.retroboard.RetroWallsResponse;
 import com.boards.core.model.entities.retroboard.RetroWall;
 import com.boards.core.model.entities.retroboard.StickyNoteStyle;
@@ -61,8 +61,8 @@ public class RetroWallsService {
         List<StickyNoteStyle> stickyNoteStyles = new ArrayList<>();
 
         int index = 0;
-        for (CreateRetroWallRequest retroWallRequest: input.getWalls()) {
-            RetroWall retroWall = CreateRetroWallRequest.createWall(retroWallRequest);
+        for (RetroWallRequest retroWallRequest: input.getWalls()) {
+            RetroWall retroWall = RetroWallRequest.createWall(retroWallRequest);
 
             WallStyle wallStyle = WallStyle.createWallStyle(retroWall);
             CreateStickyNoteStyleRequest stickyNoteStyleRequest = input.getWalls().get(index++).getStyle().getStickyNote();

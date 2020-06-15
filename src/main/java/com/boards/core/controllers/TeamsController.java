@@ -1,6 +1,5 @@
 package com.boards.core.controllers;
 
-import com.boards.core.configuration.AppUtil;
 import com.boards.core.model.dto.TeamMemberRequest;
 import com.boards.core.model.dto.teams.TeamMemberResponse;
 import com.boards.core.model.dto.teams.TeamRequest;
@@ -18,7 +17,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static com.boards.core.configuration.AppConfig.*;
-import static com.boards.core.configuration.AppUtil.*;
+import static com.boards.core.configuration.AppUtil.getLoggedInUser;
 import static org.springframework.http.ResponseEntity.*;
 
 @Log4j

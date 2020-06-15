@@ -20,4 +20,6 @@ public interface RetroWallRepository extends CrudRepository<RetroWall, String> {
                     "WHERE retro_wall.retroBoardId = :retroBoardId " +
             "ORDER BY retro_wall.wallOrder ASC ")
     List<Object[]> findAllWallsForBoard(@Param("retroBoardId") String retroBoardId);
+
+    void deleteByRetroBoardId(String retroBoardId);
 }

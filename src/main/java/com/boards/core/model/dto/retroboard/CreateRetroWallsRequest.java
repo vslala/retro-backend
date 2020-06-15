@@ -12,5 +12,5 @@ public class CreateRetroWallsRequest {
     @NotNull
     String retroBoardId;
     @NotNull
-    List<CreateRetroWallRequest> walls;
+    List<RetroWallRequest> walls;
 }

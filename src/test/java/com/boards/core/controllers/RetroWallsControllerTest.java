@@ -1,10 +1,10 @@
 package com.boards.core.controllers;
 
 import com.boards.core.RetroBoardMother;
-import com.boards.core.model.dto.retroboard.CreateRetroWallRequest;
 import com.boards.core.model.dto.retroboard.CreateRetroWallsRequest;
 import com.boards.core.model.dto.retroboard.CreateStickyNoteStyleRequest;
-import com.boards.core.model.dto.retroboard.CreateWallStyleRequest;
+import com.boards.core.model.dto.retroboard.RetroWallRequest;
+import com.boards.core.model.dto.retroboard.WallStyleRequest;
 import com.boards.core.model.entities.retroboard.RetroBoard;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -48,10 +48,10 @@ class RetroWallsControllerTest {
         stickyNoteStyle.setLikeBtnPosition("left");
         stickyNoteStyle.setTextColor("White");
 
-        CreateWallStyleRequest retroWallStyle = new CreateWallStyleRequest();
+        WallStyleRequest retroWallStyle = new WallStyleRequest();
         retroWallStyle.setStickyNote(stickyNoteStyle);
 
-        CreateRetroWallRequest retroWallRequest = new CreateRetroWallRequest();
+        RetroWallRequest retroWallRequest = new RetroWallRequest();
         retroWallRequest.setRetroBoardId(retroBoard.getId());
         retroWallRequest.setTitle("Went Well");
         retroWallRequest.setSortCards(false);

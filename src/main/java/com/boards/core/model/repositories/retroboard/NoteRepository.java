@@ -11,4 +11,6 @@ public interface NoteRepository extends CrudRepository<Note, String> {
     List<Note> findAllByWallId(String wallId);
 
     List<Note> findAllByRetroBoardId(String retroBoardId);
+
+    void deleteAllByWallIdIn(List<String> collect);
 }
