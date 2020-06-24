@@ -65,6 +65,11 @@ public class TemplateService {
                 .ifPresent(template -> {
                     if (!template.getUserId().equals(loggedInUser.getUid()))
                         throw new UnauthorizedUser("User is not authorized to make this request!!!");
+
+                    templateWallNoteStyleRepository.deleteAllByTemplateWallIdIn(
+                            convertToList(templateWallRepository.findAllByTemplateId(templateId))
+                                .stream().map(TemplateWall::getWallId).collect(Collectors.toList())
+                    );
                     templateWallRepository.deleteByTemplateId(templateId);
                     templateRepository.deleteById(templateId);
                 });
