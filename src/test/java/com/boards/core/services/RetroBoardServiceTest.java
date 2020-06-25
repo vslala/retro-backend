@@ -1,5 +1,6 @@
 package com.boards.core.services;
 
+import com.boards.core.fixtures.ServiceFixture;
 import com.boards.core.model.dto.retroboard.CreateResponse;
 import com.boards.core.model.dto.retroboard.RetroBoardRequest;
 import com.boards.core.model.entities.retroboard.RetroBoard;
@@ -12,9 +13,7 @@ import com.boards.core.model.repositories.teams.TeamMemberRepository;
 import com.boards.core.model.repositories.teams.TeamRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -24,12 +23,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.boards.core.fixtures.ServiceFixture.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class RetroBoardServiceTest {
 
-    public static final String RETRO_BOARD_ID = "retro-board-id";
     private RetroBoardRepository retroBoardRepository;
     private RetroBoardService retroBoardService;
     private SharedItemRepository sharedItemRepository;
@@ -91,46 +90,7 @@ class RetroBoardServiceTest {
         when(retroBoardRepository.findById(RETRO_BOARD_ID)).thenReturn(Optional.of(buildRetroBoard()));
         retroBoardService.deleteBoard(buildLoggedInUser(), RETRO_BOARD_ID);
         verify(noteRepository, times(1)).deleteAllByWallIdIn(Collections.emptyList());
-        verify(retroBoardRepository, times(1));
-    }
-
-    private RetroBoardRequest buildRetroBoardRequest() {
-        RetroBoardRequest retroBoardRequest = new RetroBoardRequest();
-        retroBoardRequest.setId(RETRO_BOARD_ID);
-        retroBoardRequest.setBlur("off");
-        retroBoardRequest.setMaxLikes(5);
-        retroBoardRequest.setName("Foo Bar");
-        retroBoardRequest.setUserId("uid");
-        return retroBoardRequest;
-    }
-
-    private RetroBoard buildRetroBoard() {
-        RetroBoard retroBoard = new RetroBoard();
-        retroBoard.setBlur("off");
-        retroBoard.setId(RETRO_BOARD_ID);
-        retroBoard.setMaxLikes(5);
-        retroBoard.setName("Foo Bar");
-        retroBoard.setUserId("uid");
-        return retroBoard;
-    }
-
-    private void mockAuthentication() {
-        Authentication auth = mock(Authentication.class);
-
-        when(auth.getPrincipal()).thenReturn(buildLoggedInUser());
-
-        SecurityContext securityContext = mock(SecurityContext.class);
-        when(securityContext.getAuthentication()).thenReturn(auth);
-        SecurityContextHolder.setContext(securityContext);
-    }
-
-    private User buildLoggedInUser() {
-        User loggedInUser = new User();
-        loggedInUser.setUid("uid");
-        loggedInUser.setDisplayName("John Doe");
-        loggedInUser.setEmail("johndoe@gmail.com");
-        loggedInUser.setUsername("johndoe");
-        return loggedInUser;
+        verify(retroBoardRepository, times(1)).deleteById(RETRO_BOARD_ID);
     }
 
 }
