@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.extern.log4j.Log4j;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -76,7 +77,7 @@ public class RetroWallsResponse {
                                     .map(stickyNoteStyle -> RetroWallResponse.createResponse(retroBoardId, retroWall, WallStyleResponse.createWallStyleResponse(StickyNoteStyleResponse.createResponse(stickyNoteStyle))))
                                     .orElseThrow(() -> new ResourceNotFoundException("Note style not found!"))
                     ).orElseThrow(() -> new ResourceNotFoundException("Wall style not found!"))
-        ).collect(Collectors.toList());
+        ).sorted(Comparator.comparingInt(RetroWallResponse::getWallOrder)).collect(Collectors.toList());
 
 
 
