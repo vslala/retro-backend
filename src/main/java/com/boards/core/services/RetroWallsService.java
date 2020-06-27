@@ -1,5 +1,7 @@
 package com.boards.core.services;
 
+import com.boards.core.configuration.AppUtil;
+import com.boards.core.ex.ResourceNotFoundException;
 import com.boards.core.model.dto.retroboard.CreateRetroWallsRequest;
 import com.boards.core.model.dto.retroboard.CreateStickyNoteStyleRequest;
 import com.boards.core.model.dto.retroboard.RetroWallRequest;
@@ -18,6 +20,8 @@ import javax.transaction.Transactional;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static java.net.URI.create;
@@ -48,10 +52,9 @@ public class RetroWallsService {
      */
     @Transactional
     public URI createWalls(CreateRetroWallsRequest input) {
-
         // check if walls are already created
         // and if exists return the existing walls uri
-        List<Object[]> persistedRetroWalls = retroWallRepository.findAllWallsForBoard(input.getRetroBoardId());
+        List<RetroWall> persistedRetroWalls = retroWallRepository.findAllByRetroBoardId(input.getRetroBoardId());
         if (!persistedRetroWalls.isEmpty())
             return create(format("/retro-board/walls/%s", input.getRetroBoardId()));
 
@@ -87,7 +90,11 @@ public class RetroWallsService {
      * @return
      */
     public RetroWallsResponse getWallsForBoard(String retroBoardId) {
-        List<Object[]> response = retroWallRepository.findAllWallsForBoard(retroBoardId);
-        return RetroWallsResponse.fromListObjects(response);
+        List<RetroWall> retroWalls = retroWallRepository.findAllByRetroBoardId(retroBoardId);
+        List<WallStyle> wallStyles = AppUtil.convertToList(
+                wallStyleRepository.findAllByWallIdIn(retroWalls.stream().map(RetroWall::getWallId).collect(Collectors.toList())));
+        List<StickyNoteStyle> stickyNoteStyles = stickyNoteStyleRepository.findAllByWallStyleIdIn(wallStyles.stream().map(style -> style.getWallStyleId()).collect(Collectors.toList()));
+
+        return RetroWallsResponse.createResponse(retroBoardId, retroWalls, wallStyles, stickyNoteStyles);
     }
 }

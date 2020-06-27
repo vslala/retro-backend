@@ -13,6 +13,9 @@ public interface RetroWallRepository extends CrudRepository<RetroWall, String> {
 
     List<RetroWall> findAllByRetroBoardId(String retroBoardId);
 
+    @Deprecated(forRemoval = true,
+            since = "since the result set returned from this query is generic, " +
+                    "the consumers that utilized this method should depend on direct queries.")
     @Query("SELECT retro_wall, wall_style, sticky_note_style " +
                     "FROM RetroWall retro_wall " +
                     "LEFT JOIN WallStyle wall_style ON retro_wall.wallId=wall_style.wallId " +

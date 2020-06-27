@@ -1,5 +1,6 @@
 package com.boards.core.model.dto.retroboard;
 
+import com.boards.core.model.entities.retroboard.RetroWall;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
@@ -12,4 +13,14 @@ public class RetroWallResponse {
     private WallStyleResponse style;
     private boolean sortCards;
     private Integer wallOrder;
+
+    public static RetroWallResponse createResponse(String retroBoardId, RetroWall retroWall, WallStyleResponse wallStyleResponse) {
+        var retroWallResponse = new RetroWallResponse();
+        retroWallResponse.setRetroBoardId(retroBoardId);
+        retroWallResponse.setTitle(retroWall.getTitle());
+        retroWallResponse.setWallId(retroWall.getWallId());
+        retroWallResponse.setWallOrder(retroWall.getWallOrder());
+        retroWallResponse.setStyle(wallStyleResponse);
+        return retroWallResponse;
+    }
 }

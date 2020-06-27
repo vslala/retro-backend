@@ -13,6 +13,12 @@ public class WallStyleResponse {
         this.stickyNote = stickyNoteStyleResponse;
     }
 
+    public static WallStyleResponse createWallStyleResponse(StickyNoteStyleResponse stickyNoteStyleResponse) {
+        var wallStyleResponse = new WallStyleResponse();
+        wallStyleResponse.setStickyNote(stickyNoteStyleResponse);
+        return wallStyleResponse;
+    }
+
     public WallStyleResponse createResponse(StickyNoteStyleResponse stickyNoteStyleResponse) {
         return new WallStyleResponse(stickyNoteStyleResponse);
     }

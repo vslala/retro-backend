@@ -1,5 +1,6 @@
 package com.boards.core.model.dto.retroboard;
 
+import com.boards.core.ex.ResourceNotFoundException;
 import com.boards.core.model.entities.retroboard.RetroWall;
 import com.boards.core.model.entities.retroboard.StickyNoteStyle;
 import com.boards.core.model.entities.retroboard.WallStyle;
@@ -11,6 +12,7 @@ import lombok.extern.log4j.Log4j;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Data
 @Log4j
@@ -62,6 +64,26 @@ public class RetroWallsResponse {
         }
 
         return responses;
+    }
+
+    public static RetroWallsResponse createResponse(String retroBoardId, List<RetroWall> retroWalls, List<WallStyle> wallStyles, List<StickyNoteStyle> stickyNoteStyles) {
+        List<RetroWallResponse> retroWallResponses = retroWalls.stream().map(retroWall ->
+            wallStyles.stream().filter(wallStyle -> wallStyle.getWallId().equals(retroWall.getWallId()))
+                    .findFirst()
+                    .map(wallStyle ->
+                            stickyNoteStyles.stream().filter(stickyNoteStyle -> stickyNoteStyle.getWallStyleId().equals(wallStyle.getWallStyleId()))
+                                    .findFirst()
+                                    .map(stickyNoteStyle -> RetroWallResponse.createResponse(retroBoardId, retroWall, WallStyleResponse.createWallStyleResponse(StickyNoteStyleResponse.createResponse(stickyNoteStyle))))
+                                    .orElseThrow(() -> new ResourceNotFoundException("Note style not found!"))
+                    ).orElseThrow(() -> new ResourceNotFoundException("Wall style not found!"))
+        ).collect(Collectors.toList());
+
+
+
+        var result = new RetroWallsResponse();
+        result.setRetroBoardId(retroBoardId);
+        result.setWalls(retroWallResponses);
+        return result;
     }
 
     private void add(RetroWallResponse singleResponse) {

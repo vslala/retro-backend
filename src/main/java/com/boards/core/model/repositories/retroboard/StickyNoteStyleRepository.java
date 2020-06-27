@@ -10,4 +10,6 @@ import java.util.List;
 public interface StickyNoteStyleRepository extends CrudRepository<StickyNoteStyle, String> {
 
     List<StickyNoteStyle> findAllByWallStyleId(String wallId);
+
+    List<StickyNoteStyle> findAllByWallStyleIdIn(List<String> wallStyleIds);
 }

@@ -10,6 +10,14 @@ public class StickyNoteStyleResponse {
     private String likeBtnPosition;
     private String textColor;
 
+    public static StickyNoteStyleResponse createResponse(StickyNoteStyle stickyNoteStyle) {
+        var stickyNoteStyleResponse = new StickyNoteStyleResponse();
+        stickyNoteStyleResponse.setLikeBtnPosition(stickyNoteStyle.getLikeBtnPosition());
+        stickyNoteStyleResponse.setTextColor(stickyNoteStyle.getTextColor());
+        stickyNoteStyleResponse.setBackgroundColor(stickyNoteStyle.getBackgroundColor());
+        return stickyNoteStyleResponse;
+    }
+
     public StickyNoteStyle createStickyNoteWallStyle() {
         StickyNoteStyle stickyNoteStyle = new StickyNoteStyle();
         stickyNoteStyle.setStickyNoteStyleId(AppUtil.uniqId());
