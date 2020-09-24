@@ -10,9 +10,11 @@ import org.junit.jupiter.api.Test;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static com.boards.core.fixtures.ServiceFixture.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -37,7 +39,21 @@ class RetroWallsServiceTest {
     @Test
     public void itShouldReturnUriForTheBoardIfTheWallsHaveBeenInitializedBefore() {
         when(retroWallRepository.findAllByRetroBoardId(RETRO_BOARD_ID)).thenReturn(Arrays.asList(buildPersistedRetroWall()));
+
         URI uri = retroWallsService.createWalls(buildRetroWallsRequest());
+
+        assertEquals("/retro-board/walls/" + RETRO_BOARD_ID, uri.toString());
+    }
+
+    @Test
+    public void itShouldCreateRetroWallsAndReturnTheUri() {
+        when(retroWallRepository.findAllByRetroBoardId(RETRO_BOARD_ID)).thenReturn(Collections.emptyList());
+        when(stickyNoteStyleRepository.saveAll(anyList())).thenReturn(Arrays.asList(buildPersistedStickyNoteStyle()));
+        when(retroWallRepository.saveAll(anyList())).thenReturn(Arrays.asList(buildPersistedRetroWall()));
+        when(wallStyleRepository.saveAll(anyList())).thenReturn(Arrays.asList(buildPersistedWallStyle()));
+
+        URI uri = retroWallsService.createWalls(buildRetroWallsRequest());
+
         assertEquals("/retro-board/walls/" + RETRO_BOARD_ID, uri.toString());
     }
 

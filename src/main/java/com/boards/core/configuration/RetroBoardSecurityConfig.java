@@ -29,9 +29,11 @@ public class RetroBoardSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors()
+        http
+                .headers().frameOptions().disable().and()
+                .cors()
                 .and().csrf().disable()
-                .authorizeRequests().antMatchers("/actuator/**", "/retro-websocket/**", "/login/**").permitAll()
+                .authorizeRequests().antMatchers("/actuator/**", "/retro-websocket/**", "/login/**", "/h2-console/**").permitAll()
                 .and().authorizeRequests().anyRequest().authenticated()
                 .and().exceptionHandling()
                 .authenticationEntryPoint(retroBoardTokenAuthenticationEntryPoint)

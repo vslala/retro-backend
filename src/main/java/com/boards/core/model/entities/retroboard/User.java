@@ -22,4 +22,6 @@ public class User {
     private String displayName;
     @NotNull
     private String email;
+    @NotNull
+    private boolean isEmailVerified;
 }

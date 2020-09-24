@@ -12,9 +12,11 @@ import com.boards.core.model.entities.teams.TeamMember;
 import com.boards.core.model.repositories.retroboard.NoteRepository;
 import com.boards.core.model.repositories.retroboard.RetroBoardRepository;
 import com.boards.core.model.repositories.retroboard.RetroWallRepository;
+import com.boards.core.model.repositories.retroboard.UserRepository;
 import com.boards.core.model.repositories.shareitems.SharedItemRepository;
 import com.boards.core.model.repositories.teams.TeamMemberRepository;
 import com.boards.core.model.repositories.teams.TeamRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,24 +32,16 @@ import static java.net.URI.create;
 
 @Log4j
 @Service
+@RequiredArgsConstructor
 public class RetroBoardService {
 
-    private RetroBoardRepository retroBoardRepository;
-    private SharedItemRepository sharedItemRepository;
-    private TeamRepository teamRepository;
-    private TeamMemberRepository teamMemberRepository;
-    private RetroWallRepository retroWallRepository;
-    private NoteRepository noteRepository;
-
-    @Autowired
-    public RetroBoardService(RetroBoardRepository retroBoardRepository, SharedItemRepository sharedItemRepository, TeamRepository teamRepository, TeamMemberRepository teamMemberRepository, RetroWallRepository retroWallRepository, NoteRepository noteRepository) {
-        this.retroBoardRepository = retroBoardRepository;
-        this.sharedItemRepository = sharedItemRepository;
-        this.teamRepository = teamRepository;
-        this.teamMemberRepository = teamMemberRepository;
-        this.retroWallRepository = retroWallRepository;
-        this.noteRepository = noteRepository;
-    }
+    private final RetroBoardRepository retroBoardRepository;
+    private final SharedItemRepository sharedItemRepository;
+    private final TeamRepository teamRepository;
+    private final TeamMemberRepository teamMemberRepository;
+    private final RetroWallRepository retroWallRepository;
+    private final NoteRepository noteRepository;
+    private final UserRepository userRepository;
 
     public CreateResponse createRetroBoard(RetroBoardRequest input) {
         RetroBoard retroBoard = input.createRetroBoard();
@@ -63,8 +57,9 @@ public class RetroBoardService {
         Optional<RetroBoard> persistedRetroBoard = retroBoardRepository.findById(retroBoardId);
         if (persistedRetroBoard.isEmpty()) throw new ResourceNotFoundException("Retro Board Not Found!");
 
-        // if the board is requested by its owner then return the board
-        if (persistedRetroBoard.get().getUserId().equals(loggedInUser.getUid()))
+        // if the board is requested by its owner
+        // or the board is created by anonymous user then return the board
+        if (persistedRetroBoard.get().getUserId().equals(loggedInUser.getUid()) || ! userRepository.findById(persistedRetroBoard.get().getUserId()).get().isEmailVerified())
             return persistedRetroBoard;
 
         List<TeamMember> userTeamMappings = teamMemberRepository.findAllByUid(loggedInUser.getUid());

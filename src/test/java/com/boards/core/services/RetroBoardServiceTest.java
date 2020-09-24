@@ -8,6 +8,7 @@ import com.boards.core.model.entities.retroboard.User;
 import com.boards.core.model.repositories.retroboard.NoteRepository;
 import com.boards.core.model.repositories.retroboard.RetroBoardRepository;
 import com.boards.core.model.repositories.retroboard.RetroWallRepository;
+import com.boards.core.model.repositories.retroboard.UserRepository;
 import com.boards.core.model.repositories.shareitems.SharedItemRepository;
 import com.boards.core.model.repositories.teams.TeamMemberRepository;
 import com.boards.core.model.repositories.teams.TeamRepository;
@@ -35,6 +36,7 @@ class RetroBoardServiceTest {
     private TeamRepository teamRepository;
     private RetroWallRepository retroWallRepository;
     private NoteRepository noteRepository;
+    private UserRepository userRepository;
 
     @BeforeEach
     public void setup() {
@@ -45,7 +47,7 @@ class RetroBoardServiceTest {
         retroWallRepository = mock(RetroWallRepository.class);
         noteRepository = mock(NoteRepository.class);
         retroBoardService = new RetroBoardService(retroBoardRepository, sharedItemRepository,
-                teamRepository, teamMemberRepository, retroWallRepository, noteRepository);
+                teamRepository, teamMemberRepository, retroWallRepository, noteRepository, userRepository);
         mockAuthentication();
     }
 

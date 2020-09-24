@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.Location;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -24,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Disabled
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -54,7 +56,7 @@ class RetroBoardControllerTest {
     }
 
     @Test
-    void get_retro_board_by_id() throws IOException, FirebaseAuthException {
+    void get_retro_board_by_id() throws Exception {
         String secureToken = RetroBoardMother.generateSecureToken();
         System.out.println("ID TOKEN: \n" + secureToken);
         HttpHeaders headers = new HttpHeaders();
@@ -64,6 +66,7 @@ class RetroBoardControllerTest {
 
         String path = "/retro-board/-M0QZpAXh5sQqawVkrrM";
         ResponseEntity<RetroBoard> retroBoard = restTemplate.exchange(path, HttpMethod.GET, entity, RetroBoard.class);
+
         assertNotNull(retroBoard.getBody());
         assertEquals("-M0QZpAXh5sQqawVkrrM", retroBoard.getBody().getId());
     }

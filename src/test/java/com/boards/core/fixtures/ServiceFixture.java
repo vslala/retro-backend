@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Arrays;
 
+import static java.net.URI.create;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -120,5 +121,11 @@ public class ServiceFixture {
         wallStyle.setWallId(WALL_ID);
         wallStyle.setWallStyleId(WALL_STYLE_ID);
         return wallStyle;
+    }
+
+    public static CreateResponse buildCreateResponse(String boardId) {
+        return CreateResponse.builder().resourceUrl(
+                create(String.format("/retro-board/%s", boardId)).toString())
+                .build();
     }
 }

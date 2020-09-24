@@ -45,6 +45,7 @@ public class RetroBoardTokenAuthenticationFilter extends OncePerRequestFilter {
         user.setUid(anonymousUid);
         user.setEmail(AppUtil.anonymousEmail(anonymousUid));
         user.setDisplayName(AppUtil.anonymousDisplayName(anonymousUid));
+        user.setEmailVerified(false);
         return user;
     }
 
