@@ -1,37 +1,16 @@
-version: '3'
-
 services:
   web:
     container_name: retro-board-backend
     environment:
-      - IMAGE_REPOSITORY
-      - IMAGE_TAG
-      - SPRING_DATASOURCE_URL
-      - SPRING_DATASOURCE_USERNAME
-      - SPRING_DATASOURCE_PASSWORD
-      - CREDENTIAL_FILE_NAME
-      - SPRING_ACTIVE_PROFILE
-    image: ${IMAGE_REPOSITORY}:${IMAGE_TAG}
-    ports:
-      - '8082:8082'
+      CREDENTIAL_FILE_NAME: retro-board-credentials.json
+      IMAGE_REPOSITORY: registry.gitlab.com/projects2020/retro-board-backend
+      IMAGE_TAG: 08fc82595f3ab29a6ddee8c336587257283e2643
+      SPRING_ACTIVE_PROFILE: dev
     expose:
-      - '8082'
-  mysql:
-    container_name: ${MYSQL_CONTAINER_NAME}
-    restart: always
-    image: mysql:8.0
-    environment:
-      - MYSQL_ROOT_PASSWORD
-      - MYSQL_USER
-      - MYSQL_PASS
-      - MYSQL_PORT
+    - '8082'
+    image: registry.gitlab.com/projects2020/retro-board-backend:08fc82595f3ab29a6ddee8c336587257283e2643
     ports:
-      - "${MYSQL_PORT}:3306/tcp"
-    expose:
-      - "${MYSQL_PORT}"
-    volumes:
-      - mysql_db_data:/var/lib/mysql
-
-
+    - 8082:8082/tcp
+version: '3.0'
 volumes:
-  mysql_db_data:
+  mysql_db_data: {}
