@@ -25,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Disabled
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -92,6 +91,11 @@ class RetroBoardControllerTest {
                 .andExpect(status().isCreated());
 
 
+    }
+
+    @Test
+    void sandbox() throws IOException, FirebaseAuthException {
+        System.out.println(RetroBoardMother.generateSecureToken());
     }
 
 
