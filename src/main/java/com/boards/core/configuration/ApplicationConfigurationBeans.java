@@ -16,8 +16,6 @@ import java.io.InputStream;
 @Configuration
 public class ApplicationConfigurationBeans {
 
-    @Getter
-    @Setter
     @Value("${credential.file.name}")
     private String credentialFileName;
 
