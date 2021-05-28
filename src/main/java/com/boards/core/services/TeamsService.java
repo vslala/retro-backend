@@ -82,9 +82,10 @@ public class TeamsService {
         if (team.isPresent() && loggedInUser.getUid().equals(team.get().getCreatedBy())) {
             teamMemberRepository.deleteAllByTeamId(teamId);
             teamRepository.deleteById(teamId);
+            return;
         }
 
-        throw new UnauthorizedUser("<TeamsService.deleteTeam()>");
+        throw new UnauthorizedUser("<TeamsService.deleteTeam()>. Team ID: " + teamId + ", Is Team Present with the given ID: " + team.isPresent());
     }
 
     public Set<TeamResponse> getMyTeams(User loggedInUser) {
