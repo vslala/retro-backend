@@ -57,8 +57,12 @@ public class RetroBoardService {
         if (persistedRetroBoard.isEmpty()) throw new ResourceNotFoundException("Retro Board Not Found!");
 
         // if the board is requested by its owner
+        if (persistedRetroBoard.get().getUserId().equals(loggedInUser.getUid()))
+            return persistedRetroBoard;
+
         // or the board is created by anonymous user then return the board
-        if (persistedRetroBoard.get().getUserId().equals(loggedInUser.getUid()) || ! userRepository.findById(persistedRetroBoard.get().getUserId()).get().isEmailVerified())
+        Optional<User> userWhoCreatedTheBoard = userRepository.findById(persistedRetroBoard.get().getUserId());
+        if (userWhoCreatedTheBoard.isEmpty() || !userWhoCreatedTheBoard.get().isEmailVerified())
             return persistedRetroBoard;
 
         List<TeamMemberTeamMapping> userTeamMappings = teamMemberRepository.findAllByUid(loggedInUser.getUid());
