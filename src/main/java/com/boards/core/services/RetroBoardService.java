@@ -8,7 +8,7 @@ import com.boards.core.model.dto.retroboard.RetroBoardRequest;
 import com.boards.core.model.entities.retroboard.RetroBoard;
 import com.boards.core.model.entities.retroboard.User;
 import com.boards.core.model.entities.shareitems.SharedItem;
-import com.boards.core.model.entities.teams.TeamMember;
+import com.boards.core.model.entities.teams.TeamMemberTeamMapping;
 import com.boards.core.model.repositories.retroboard.NoteRepository;
 import com.boards.core.model.repositories.retroboard.RetroBoardRepository;
 import com.boards.core.model.repositories.retroboard.RetroWallRepository;
@@ -19,7 +19,6 @@ import com.boards.core.model.repositories.teams.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -62,7 +61,7 @@ public class RetroBoardService {
         if (persistedRetroBoard.get().getUserId().equals(loggedInUser.getUid()) || ! userRepository.findById(persistedRetroBoard.get().getUserId()).get().isEmailVerified())
             return persistedRetroBoard;
 
-        List<TeamMember> userTeamMappings = teamMemberRepository.findAllByUid(loggedInUser.getUid());
+        List<TeamMemberTeamMapping> userTeamMappings = teamMemberRepository.findAllByUid(loggedInUser.getUid());
         List<SharedItem> sharedItems = sharedItemRepository.findAllByItemId(retroBoardId);
 
         // check if the loggedInUser is allowed to view the board

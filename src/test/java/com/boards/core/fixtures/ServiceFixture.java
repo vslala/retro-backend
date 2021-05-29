@@ -2,6 +2,8 @@ package com.boards.core.fixtures;
 
 import com.boards.core.model.dto.retroboard.*;
 import com.boards.core.model.entities.retroboard.*;
+import com.boards.core.model.entities.teams.Team;
+import com.boards.core.model.entities.teams.TeamMemberTeamMapping;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -127,5 +129,20 @@ public class ServiceFixture {
         return CreateResponse.builder().resourceUrl(
                 create(String.format("/retro-board/%s", boardId)).toString())
                 .build();
+    }
+
+    public static Team buildTeam(String teamId, String teamName, String createdBy) {
+        var team = new Team();
+        team.setTeamId(teamId);
+        team.setTeamName(teamName);
+        team.setCreatedBy(createdBy);
+        return team;
+    }
+
+    public static TeamMemberTeamMapping buildTeamMemberTeamMapping(Team team, User loggedInUser) {
+        var teamMemberTeamMapping = new TeamMemberTeamMapping();
+        teamMemberTeamMapping.setTeamId(team.getTeamId());
+        teamMemberTeamMapping.setUid(loggedInUser.getUid());
+        return teamMemberTeamMapping;
     }
 }

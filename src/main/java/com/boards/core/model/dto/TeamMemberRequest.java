@@ -3,7 +3,7 @@ package com.boards.core.model.dto;
 import com.boards.core.model.dto.teams.TeamRequest;
 import com.boards.core.model.entities.retroboard.User;
 import com.boards.core.model.entities.teams.Team;
-import com.boards.core.model.entities.teams.TeamMember;
+import com.boards.core.model.entities.teams.TeamMemberTeamMapping;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
@@ -20,15 +20,15 @@ public class TeamMemberRequest {
     @Email
     private User teamMember;
 
-    public static TeamMember createTeamMember(TeamMemberRequest teamMemberRequest, User user) {
-        var teamMember = new TeamMember();
+    public static TeamMemberTeamMapping createTeamMember(TeamMemberRequest teamMemberRequest, User user) {
+        var teamMember = new TeamMemberTeamMapping();
         teamMember.setTeamId(teamMemberRequest.getTeam().getTeamId());
         teamMember.setUid(user.getUid());
         return teamMember;
     }
 
-    public static TeamMember addTeamMember(Team persistedTeam, User user) {
-        var teamMember = new TeamMember();
+    public static TeamMemberTeamMapping addTeamMember(Team persistedTeam, User user) {
+        var teamMember = new TeamMemberTeamMapping();
         teamMember.setTeamId(persistedTeam.getTeamId());
         teamMember.setUid(user.getUid());
         return teamMember;

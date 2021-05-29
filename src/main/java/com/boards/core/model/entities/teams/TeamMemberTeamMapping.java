@@ -8,8 +8,8 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "team_members")
-@IdClass(value = TeamMember.CompositeKey.class)
-public class TeamMember {
+@IdClass(value = TeamMemberTeamMapping.CompositeKey.class)
+public class TeamMemberTeamMapping {
 
     @Id
     @Column(name = "team_id")
