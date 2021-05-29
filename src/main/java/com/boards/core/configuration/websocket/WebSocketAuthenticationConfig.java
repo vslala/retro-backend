@@ -2,6 +2,7 @@ package com.boards.core.configuration.websocket;
 
 import com.boards.core.model.entities.retroboard.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j;
@@ -38,22 +39,27 @@ public class WebSocketAuthenticationConfig implements WebSocketMessageBrokerConf
     }
 
     private class WebSocketChannelInterceptor implements ChannelInterceptor {
-        @SneakyThrows
         @Override
         public Message<?> preSend(Message<?> message, MessageChannel channel) {
             StompHeaderAccessor headerAccessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+            assert headerAccessor != null;
             if (StompCommand.CONNECT.equals(headerAccessor.getCommand())) {
                 List<String> authorization = headerAccessor.getNativeHeader("Authorization");
 
-                if (Objects.isNull(authorization) && authorization.isEmpty())  return message;
+                if (Objects.isNull(authorization) || authorization.isEmpty())  return message;
 
                 String authorizationHeader = authorization.get(0).substring(7);
-                FirebaseToken idToken = FirebaseAuth.getInstance().verifyIdToken(authorizationHeader);
-                User user = idToken.isEmailVerified() ? buildUser(idToken) : buildAnonymousUser(idToken);
+                FirebaseToken idToken = null;
+                try {
+                    idToken = FirebaseAuth.getInstance().verifyIdToken(authorizationHeader);
+                    User user = idToken.isEmailVerified() ? buildUser(idToken) : buildAnonymousUser(idToken);
 
-                log.debug("User is valid!");
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
-                headerAccessor.setUser(authToken);
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
+                    headerAccessor.setUser(authToken);
+                } catch (FirebaseAuthException e) {
+                    log.warn("Invalid User!!!");
+                    log.warn(e.getMessage());
+                }
             }
             return message;
         }
