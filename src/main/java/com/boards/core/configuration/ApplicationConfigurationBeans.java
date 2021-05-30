@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.xml.bind.DatatypeConverter;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -16,14 +18,14 @@ import java.io.InputStream;
 @Configuration
 public class ApplicationConfigurationBeans {
 
-    @Value("${credential.file.name}")
-    private String credentialFileName;
+    @Value("${credentials}")
+    private String credentials;
 
     @Bean
     public FirebaseApp firebaseApp() {
         FirebaseOptions options = null;
         try {
-            InputStream serviceAccount = ApplicationConfigurationBeans.class.getClassLoader().getResourceAsStream(credentialFileName);
+            InputStream serviceAccount = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(credentials));
             options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .setDatabaseUrl("https://retro-board-ebce6.firebaseio.com")
